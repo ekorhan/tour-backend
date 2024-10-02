@@ -4,6 +4,8 @@ import com.nahrok.tourbackend.model.vehicle.VehicleModel;
 import com.nahrok.tourbackend.service.IVehicleService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("vehicle")
 public class VehicleController {
@@ -21,5 +23,10 @@ public class VehicleController {
     @GetMapping
     public VehicleModel vehicleDetail(@RequestParam("vehicleId") Long vehicleId) {
         return vehicleService.getVehicleDetail(vehicleId);
+    }
+
+    @GetMapping("vehicles")
+    public List<VehicleModel> vehicles() {
+        return vehicleService.getVehicles();
     }
 }

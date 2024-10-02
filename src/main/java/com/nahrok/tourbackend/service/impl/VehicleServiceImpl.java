@@ -7,6 +7,7 @@ import com.nahrok.tourbackend.repo.VehicleRepository;
 import com.nahrok.tourbackend.service.IVehicleService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,5 +29,10 @@ public class VehicleServiceImpl implements IVehicleService {
     public VehicleModel getVehicleDetail(Long vehicleId) {
         Optional<VehicleEntity> entity = vehicleRepository.findById(vehicleId);
         return entity.map(vehicleMapper::entityToModel).orElse(null);
+    }
+
+    @Override
+    public List<VehicleModel> getVehicles() {
+        return vehicleMapper.entityToModel(vehicleRepository.findAll());
     }
 }

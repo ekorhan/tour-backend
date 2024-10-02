@@ -18,16 +18,8 @@ public class TourEntity extends BaseEntity {
     private String tourCategory;
     private String tourType;
     private Integer capacity;
-
-    @ManyToOne(targetEntity = StationEntity.class)
     private Long startingStationId;
-
-    @ManyToOne(targetEntity = StationEntity.class)
     private Long destinationId;
-
-    @ManyToOne(targetEntity = VehicleEntity.class)
     private Long vehicleId;
-
-    @ManyToOne(targetEntity = DriverEntity.class)
     private Long driverId;
 }

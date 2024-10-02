@@ -34,7 +34,7 @@ public class StationServiceImpl implements IStationService {
     @Override
     public StationDetail getStation(Long stationId) {
         Optional<StationEntity> entity = stationRepository.findById(stationId);
-        return entity.map(stationDetailMapper::entityToModel).orElse(null);
+        return entity.map(stationDetailMapper::entityToModel).orElse(new StationDetail());
     }
 
     @Override

@@ -6,6 +6,7 @@ import lombok.Getter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class EnumGnlChars {
 
@@ -27,6 +28,9 @@ public class EnumGnlChars {
         }
 
         public static Map<TourChars, String> valMap(List<CharVal> charVal) {
+            if (Objects.isNull(charVal) || charVal.isEmpty()) {
+                return new HashMap<>();
+            }
             Map<TourChars, String> valMap = new HashMap<>();
             for (CharVal c : charVal) {
                 valMap.put(findIdFromShortCode(c.getShortCode()), c.getVal());

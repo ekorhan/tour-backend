@@ -5,6 +5,8 @@ import com.nahrok.tourbackend.model.driver.DriverDetail;
 import com.nahrok.tourbackend.service.IDriverService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("driver")
 public class DriverController {
@@ -22,6 +24,11 @@ public class DriverController {
     @GetMapping
     public DriverDetail driverDetail(@RequestParam("driverId") Long driverId) {
         return driverService.getDriverDetail(driverId);
+    }
+
+    @GetMapping("drivers")
+    public List<DriverDetail> drivers() {
+        return driverService.getDrivers();
     }
 
 }

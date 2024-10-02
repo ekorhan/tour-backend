@@ -9,6 +9,7 @@ import com.nahrok.tourbackend.repo.DriverRepository;
 import com.nahrok.tourbackend.service.IDriverService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -35,5 +36,10 @@ public class DriverServiceImpl implements IDriverService {
     public DriverDetail getDriverDetail(Long driverId) {
         Optional<DriverEntity> entity = driverRepository.findById(driverId);
         return entity.map(driverDetailMapper::entityToModel).orElse(null);
+    }
+
+    @Override
+    public List<DriverDetail> getDrivers() {
+        return driverDetailMapper.entityToModel(driverRepository.findAll());
     }
 }

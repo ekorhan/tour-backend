@@ -1,14 +1,20 @@
 package com.nahrok.tourbackend.service.impl;
 
+import com.nahrok.tourbackend.entity.DriverEntity;
 import com.nahrok.tourbackend.entity.TourCharValEntity;
 import com.nahrok.tourbackend.entity.TourEntity;
 import com.nahrok.tourbackend.general.EnumGnlChars;
 import com.nahrok.tourbackend.mapper.tour.TourCreateMapper;
 import com.nahrok.tourbackend.mapper.tour.TourDetailMapper;
+import com.nahrok.tourbackend.mapper.vehicle.VehicleMapper;
+import com.nahrok.tourbackend.model.station.StationDetail;
 import com.nahrok.tourbackend.model.tour.TourCreateRequest;
 import com.nahrok.tourbackend.model.tour.TourDetailResponse;
+import com.nahrok.tourbackend.repo.DriverRepository;
 import com.nahrok.tourbackend.repo.TourCharValRepository;
 import com.nahrok.tourbackend.repo.TourRepository;
+import com.nahrok.tourbackend.repo.VehicleRepository;
+import com.nahrok.tourbackend.service.IStationService;
 import com.nahrok.tourbackend.service.ITourService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,18 +30,30 @@ public class TourServiceImpl implements ITourService {
 
     private final TourCharValRepository tourCharValRepository;
 
+    private final VehicleRepository vehicleRepository;
+
+    private final DriverRepository driverRepository;
+
+    private final IStationService stationService;
+
     private final TourCreateMapper tourCreateMapper;
 
     private final TourDetailMapper tourDetailMapper;
 
+    private final VehicleMapper vehicleMapper;
+
     public TourServiceImpl(TourRepository tourRepository,
-                           TourCharValRepository tourCharValRepository,
+                           TourCharValRepository tourCharValRepository, VehicleRepository vehicleRepository, DriverRepository driverRepository, IStationService stationService,
                            TourCreateMapper tourCreateMapper,
-                           TourDetailMapper tourDetailMapper) {
+                           TourDetailMapper tourDetailMapper, VehicleMapper vehicleMapper) {
         this.tourRepository = tourRepository;
         this.tourCharValRepository = tourCharValRepository;
+        this.vehicleRepository = vehicleRepository;
+        this.driverRepository = driverRepository;
+        this.stationService = stationService;
         this.tourCreateMapper = tourCreateMapper;
         this.tourDetailMapper = tourDetailMapper;
+        this.vehicleMapper = vehicleMapper;
     }
 
     @Override
@@ -43,7 +61,9 @@ public class TourServiceImpl implements ITourService {
     public Long tourCreate(TourCreateRequest request) {
         TourEntity tourEntity = tourCreateMapper.modelToEntity(request);
 
-        Long tourId = tourRepository.save(tourEntity).getId();
+        tourEntity = tourRepository.save(tourEntity);
+
+        Long tourId = tourEntity.getId();
 
         List<TourCharValEntity> charValEntities = new ArrayList<>();
         Map<EnumGnlChars.TourChars, String> valMap = EnumGnlChars.TourChars.valMap(request.getCharVal());
@@ -65,12 +85,38 @@ public class TourServiceImpl implements ITourService {
     @Override
     public TourDetailResponse getTour(Long tourId) {
         Optional<TourEntity> entity = tourRepository.findById(tourId);
-        return entity.map(tourDetailMapper::entityToModel).orElse(null);
+
+        return entity.map(this::getTourResponse).orElse(null);
     }
 
     @Override
     public List<TourDetailResponse> tours() {
         List<TourEntity> tourEntity = tourRepository.findAll();
-        return tourDetailMapper.entityToModel(tourEntity);
+        List<TourDetailResponse> response = new ArrayList<>();
+
+        for (TourEntity e : tourEntity) {
+            getTourResponse(e);
+            TourDetailResponse r = getTourResponse(e);
+            response.add(r);
+        }
+
+
+        return response;
+    }
+
+    private TourDetailResponse getTourResponse(TourEntity e) {
+        TourDetailResponse r = tourDetailMapper.entityToModel(e);
+        Optional<DriverEntity> driver = driverRepository.findById(e.getDriverId());
+        if (driver.isPresent()) {
+            DriverEntity driverEntity = driver.get();
+            r.setDriverName(driverEntity.getFirstName() + " " + driverEntity.getLastName());
+        }
+        StationDetail startingStation = stationService.getStation(e.getStartingStationId());
+        StationDetail destination = stationService.getStation(e.getDestinationId());
+        r.setStartingStation(startingStation.getStationName());
+        r.setDestination(destination.getStationName());
+
+        r.setVehicle(vehicleRepository.findById(e.getVehicleId()).map(vehicleMapper::entityToModel).orElse(null));
+        return r;
     }
 }

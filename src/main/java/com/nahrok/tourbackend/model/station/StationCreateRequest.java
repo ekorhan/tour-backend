@@ -1,5 +1,10 @@
 package com.nahrok.tourbackend.model.station;
 
+import lombok.Data;
+import lombok.ToString;
+
+@Data
+@ToString
 public class StationCreateRequest {
     private String stationName;
     private String stationType;

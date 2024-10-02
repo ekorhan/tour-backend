@@ -2,8 +2,6 @@ package com.nahrok.tourbackend.model.driver;
 
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
 public class DriverDetail {
     private Long id;
@@ -16,5 +14,5 @@ public class DriverDetail {
     private String zip;
     private String country;
     private String gender;
-    private Date dateOfBirth;
+    private String dateOfBirth;
 }

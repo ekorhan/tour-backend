@@ -21,5 +21,5 @@ public class DriverEntity extends BaseEntity{
     private String zip;
     private String country;
     private String gender;
-    private Date dateOfBirth;
+    private String dateOfBirth;
 }
