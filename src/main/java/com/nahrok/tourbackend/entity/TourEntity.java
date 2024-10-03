@@ -1,7 +1,6 @@
 package com.nahrok.tourbackend.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,6 +11,10 @@ import lombok.EqualsAndHashCode;
 @Table
 public class TourEntity extends BaseEntity {
     private String tourName;
+    private String startDate;
+    private String startTime;
+    private String endDate;
+    private String endTime;
     private String tourDescription;
     private String tourImage;
     private String tourPrice;

@@ -9,6 +9,8 @@ import com.nahrok.tourbackend.repo.CustomerRepository;
 import com.nahrok.tourbackend.service.ICustomerService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -34,5 +36,15 @@ public class CustomerServiceImpl implements ICustomerService {
     public CustomerDetailResponse getCustomerDetails(Long customerId) {
         Optional<CustomerEntity> entity = customerRepository.findById(customerId);
         return entity.map(customerDetailMapper::entityToModel).orElse(null);
+    }
+
+    @Override
+    public List<CustomerDetailResponse> getCustomers() {
+        return customerDetailMapper.entityToModel(customerRepository.findAll());
+    }
+
+    @Override
+    public List<CustomerDetailResponse> searchCustomer(String anyName) {
+        return customerDetailMapper.entityToModel(customerRepository.searchCustomer(anyName.toLowerCase(Locale.ROOT)));
     }
 }

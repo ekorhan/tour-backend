@@ -5,6 +5,8 @@ import com.nahrok.tourbackend.model.CustomerDetailResponse;
 import com.nahrok.tourbackend.service.ICustomerService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("customer")
 public class CustomerController {
@@ -22,6 +24,16 @@ public class CustomerController {
     @GetMapping
     public CustomerDetailResponse getCustomerDetails(@RequestParam("customerId") Long customerId) {
         return customerService.getCustomerDetails(customerId);
+    }
+
+    @GetMapping("list")
+    public List<CustomerDetailResponse> customers() {
+        return customerService.getCustomers();
+    }
+
+    @GetMapping("search")
+    public List<CustomerDetailResponse> search(@RequestParam("anyName") String anyName) {
+        return customerService.searchCustomer(anyName);
     }
 
 }

@@ -8,7 +8,11 @@ import java.util.List;
 public interface ITourService {
     Long tourCreate(TourCreateRequest request);
 
+    Long tourEdit(TourCreateRequest request);
+
     TourDetailResponse getTour(Long tourId);
 
     List<TourDetailResponse> tours();
+
+    List<TourDetailResponse> searchTour(String anyName);
 }

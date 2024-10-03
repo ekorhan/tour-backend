@@ -11,6 +11,10 @@ import java.util.List;
 public class TourCreateRequest {
     private Long id;
     private String tourName;
+    private String startDate;
+    private String startTime;
+    private String endDate;
+    private String endTime;
     private String tourDescription;
     private String tourImage;
     private Long startingStationId;
@@ -21,7 +25,6 @@ public class TourCreateRequest {
     private String tourCategory;
     private String tourType;
     private Integer capacity;
-
 
     private List<CharVal> charVal;
     private String season;
