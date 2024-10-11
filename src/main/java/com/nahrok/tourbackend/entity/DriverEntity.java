@@ -5,13 +5,11 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.Date;
-
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
 @Table
-public class DriverEntity extends BaseEntity{
+public class DriverEntity extends BaseEntity {
     private String firstName;
     private String lastName;
     private String email;

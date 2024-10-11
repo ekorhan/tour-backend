@@ -1,6 +1,5 @@
 package com.nahrok.tourbackend.controller;
 
-import com.nahrok.tourbackend.model.CustomerDetailResponse;
 import com.nahrok.tourbackend.model.tour.TourCreateRequest;
 import com.nahrok.tourbackend.model.tour.TourDetailResponse;
 import com.nahrok.tourbackend.service.ITourService;
