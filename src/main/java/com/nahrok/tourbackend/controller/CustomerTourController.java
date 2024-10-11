@@ -2,11 +2,11 @@ package com.nahrok.tourbackend.controller;
 
 import com.nahrok.tourbackend.model.UpdatePaymentRequest;
 import com.nahrok.tourbackend.model.customer_tour.CreateCustomerTourRequest;
+import com.nahrok.tourbackend.model.customer_tour.TourCustomer;
 import com.nahrok.tourbackend.service.ICustomerTourService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("customerTour")
@@ -26,6 +26,11 @@ public class CustomerTourController {
     @PostMapping("updateCustomerPayment")
     public void updateCustomerPayment(@RequestBody UpdatePaymentRequest request) {
         customerTourService.updateCustomerPayment(request);
+    }
+
+    @GetMapping("tourCustomers")
+    public List<TourCustomer> tourCustomers(@RequestParam("tourId") Long tourId) {
+        return customerTourService.getTourCustomers(tourId);
     }
 
 }

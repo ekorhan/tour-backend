@@ -13,4 +13,6 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> 
 
     @Query("select c from CustomerEntity c where LOWER(c.firstName) like %:anyName% or LOWER(c.lastName) like %:anyName% or c.phoneNumber like %:anyName% ")
     List<CustomerEntity> searchCustomer(@Param("anyName") String anyName);
+
+    List<CustomerEntity> findAllByIdIn(List<Long> id);
 }
