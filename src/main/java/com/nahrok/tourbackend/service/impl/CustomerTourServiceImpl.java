@@ -4,32 +4,36 @@ import com.nahrok.tourbackend.entity.CustomerTourRelEntity;
 import com.nahrok.tourbackend.entity.PaymentEntity;
 import com.nahrok.tourbackend.model.UpdatePaymentRequest;
 import com.nahrok.tourbackend.model.customer_tour.CreateCustomerTourRequest;
-import com.nahrok.tourbackend.model.customer_tour.Payment;
+import com.nahrok.tourbackend.model.tour.TourDetailResponse;
 import com.nahrok.tourbackend.repo.CustomerTourRelRepository;
 import com.nahrok.tourbackend.repo.PaymentRepository;
 import com.nahrok.tourbackend.service.ICustomerTourService;
+import com.nahrok.tourbackend.service.ITourService;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 public class CustomerTourServiceImpl implements ICustomerTourService {
 
     private final CustomerTourRelRepository customerTourRelRepository;
     private final PaymentRepository paymentRepository;
+    private final ITourService tourService;
 
-    public CustomerTourServiceImpl(CustomerTourRelRepository customerTourRelRepository, PaymentRepository paymentRepository) {
+    public CustomerTourServiceImpl(CustomerTourRelRepository customerTourRelRepository, PaymentRepository paymentRepository, ITourService tourService) {
         this.customerTourRelRepository = customerTourRelRepository;
         this.paymentRepository = paymentRepository;
+        this.tourService = tourService;
     }
 
     @Override
     public void addCustomerToTour(CreateCustomerTourRequest request) {
-        /**
-         * customer info
-         * tour info
-         * customer info about this tour for example payment
-         */
+        TourDetailResponse tour = tourService.getTour(request.getTourId());
+        if (Objects.isNull(tour)) {
+            return;
+        }
 
-        Payment payment = request.getPayment();
+        Double tourPrice = Double.parseDouble(tour.getTourPrice());
 
         CustomerTourRelEntity relEntity = new CustomerTourRelEntity();
         relEntity.setCustomerId(request.getCustomerId());
@@ -37,10 +41,10 @@ public class CustomerTourServiceImpl implements ICustomerTourService {
 
         PaymentEntity paymentEntity = new PaymentEntity();
 
-        paymentEntity.setDeposit(payment.getDeposit());
-        paymentEntity.setPaid(payment.getPaid());
-        paymentEntity.setRemainingAmount(payment.getRemainingAmount());
-        paymentEntity.setTotalAmount(payment.getTotalAmount());
+        paymentEntity.setDeposit(request.getPaid());
+        paymentEntity.setPaid(request.getPaid());
+        paymentEntity.setRemainingAmount(tourPrice - request.getPaid());
+        paymentEntity.setTotalAmount(tourPrice);
 
         paymentEntity = paymentRepository.save(paymentEntity);
 

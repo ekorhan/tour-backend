@@ -1,9 +1,6 @@
 package com.nahrok.tourbackend.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -12,10 +9,10 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Table
 public class CustomerTourRelEntity extends BaseEntity {
-    @ManyToOne(targetEntity = CustomerEntity.class)
+    @Column
     private Long customerId;
-    @ManyToOne(targetEntity = TourEntity.class)
+    @Column
     private Long tourId;
-    @OneToOne(targetEntity = PaymentEntity.class)
+    @Column
     private Long paymentId;
 }

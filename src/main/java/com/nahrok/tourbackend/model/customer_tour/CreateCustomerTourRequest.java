@@ -6,6 +6,6 @@ import lombok.Data;
 public class CreateCustomerTourRequest {
     private Long customerId;
     private Long tourId;
-    private Payment payment;
+    private Double paid;
 }
 
