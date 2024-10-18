@@ -1,16 +1,18 @@
 package com.nahrok.tourbackend.service;
 
 import com.nahrok.tourbackend.model.CreateCustomerRequest;
-import com.nahrok.tourbackend.model.CustomerDetailResponse;
+import com.nahrok.tourbackend.model.CustomerDetail;
 
 import java.util.List;
 
 public interface ICustomerService {
     Long createCustomer(CreateCustomerRequest request);
 
-    CustomerDetailResponse getCustomerDetails(Long customerId);
+    CustomerDetail getCustomerDetails(Long customerId);
 
-    List<CustomerDetailResponse> getCustomers();
+    List<CustomerDetail> getCustomers();
 
-    List<CustomerDetailResponse> searchCustomer(String anyName);
+    List<CustomerDetail> searchCustomer(String anyName);
+
+    CustomerDetail updateCustomer(CustomerDetail request);
 }

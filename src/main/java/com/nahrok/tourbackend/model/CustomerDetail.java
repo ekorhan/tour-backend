@@ -9,10 +9,11 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class CustomerDetailResponse {
+public class CustomerDetail {
     private Long id;
     private String firstName;
     private String lastName;
     private String email;
+    private String countryCode;
     private String phoneNumber;
 }

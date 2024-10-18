@@ -1,7 +1,7 @@
 package com.nahrok.tourbackend.controller;
 
 import com.nahrok.tourbackend.model.CreateCustomerRequest;
-import com.nahrok.tourbackend.model.CustomerDetailResponse;
+import com.nahrok.tourbackend.model.CustomerDetail;
 import com.nahrok.tourbackend.service.ICustomerService;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,18 +22,23 @@ public class CustomerController {
     }
 
     @GetMapping
-    public CustomerDetailResponse getCustomerDetails(@RequestParam("customerId") Long customerId) {
+    public CustomerDetail getCustomerDetails(@RequestParam("customerId") Long customerId) {
         return customerService.getCustomerDetails(customerId);
     }
 
     @GetMapping("list")
-    public List<CustomerDetailResponse> customers() {
+    public List<CustomerDetail> customers() {
         return customerService.getCustomers();
     }
 
     @GetMapping("search")
-    public List<CustomerDetailResponse> search(@RequestParam("anyName") String anyName) {
+    public List<CustomerDetail> search(@RequestParam("anyName") String anyName) {
         return customerService.searchCustomer(anyName);
+    }
+
+    @PostMapping("edit")
+    public CustomerDetail updateCustomer(@RequestBody CustomerDetail request) {
+        return customerService.updateCustomer(request);
     }
 
 }
